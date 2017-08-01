@@ -83,7 +83,3 @@ I do this as a hobby, but I will try to be timely with my updates.
 # Disclaimer
 
 I built these for my own use. I offer these builds for your own convenience. If it 'splodes your computer, I am sorry, but buyer beware. :) I am in no way affiliated with the orginators of Riot -- Vector Creations Ltd. (of Amdocs) -- but I do thank them for their contribution.
-
-# Questions or comments...
-
-Contact: **t0dd@protonmail.com** or find me at **@t0dd:matrix.org** after you installed Riot!

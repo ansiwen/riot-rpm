@@ -2,23 +2,22 @@
 #        data-transport protocol, Matrix.
 #
 # https://riot.im/
-# https://github/taw00/riot-rpm
-# https://copr.fedorainfracloud.org/coprs/taw/Riot/
+# https://github/ansiwen/riot-rpm
+# https://copr.fedorainfracloud.org/coprs/ansiwen/Riot/
 #
-# t0dd@protonmail.com
+# sven@anderson.de
 
 
 # Release bump is the base release number - i.e., we tend to "bump" this often.
 # Recommend including the date for experimental builds
 # for example 20160405.0, 20160405.1, 20160405.2, 20160406.0, etc
-%define bump 0
+%define bump 1
 # release bumptag
-%define bumptag .taw
+%define bumptag .ansiwen
 # % define bumptag % {nil}
 # ...the release bumptag is used to convey information about who built the
 # package (or other extra information) and is really only useful during early
-# spins of the RPMs. For example, ".taw" is a reference to the original
-# packager, Todd Warner (his initials).
+# spins of the RPMs.
 # For actual releases, you may want to NIL the value above
 %define _release %{bump}%{bumptag}
 
@@ -27,9 +26,9 @@
 
 Name: riot
 Obsoletes: riot-web
-Version: 0.9.8
+Version: 0.11.4
 Release: %{_release}%{?dist}
-Packager: Todd Warner <t0dd@protonmail.com>
+Packager: Sven Anderson <sven@anderson.de>
 Summary: Riot - Front-end client for the decentralized, secure, messaging and data-transport protocol, Matrix.
 
 %define _srcname riot-web
@@ -49,8 +48,9 @@ URL: http://riot.im/
 # upstream
 #Source0: https://github.com/vector-im/riot-web
 #Source0: https://github.com/vector-im/riot-web/archive/v%{version}.tar.gz
+#Source0: https://github.com/vector-im/riot-web/releases/download/v%{version}/riot-v%{version}.tar.gz
 #Source0: https://github.com/vector-im/riot-web/releases/tag/v%{version}
-Source0: %{archivebasename}.tar.gz
+Source0: v%{version}.tar.gz
 Source1: %{contribarchivename}.tar.gz
 # patch for RPM builds - not really needed, but here for possible completeness
 #Patch0: %{archivebasename}-rpm.patch
@@ -94,12 +94,12 @@ cd %{buildtree}
 /usr/bin/npm install
 /usr/bin/npm run build
 # builds linux-friendly stuff (we use this) and a default tarball, rpm, or deb (not used)
-%define linuxunpacked electron/dist/linux-unpacked
+%define linuxunpacked electron_app/dist/linux-unpacked
 %ifarch x86_64 amd64
-%define linuxunpacked electron/dist/linux-unpacked
+%define linuxunpacked electron_app/dist/linux-unpacked
 node_modules/.bin/build -l tar.gz --x64
 %else
-%define linuxunpacked electron/dist/linux-ia32-unpacked
+%define linuxunpacked electron_app/dist/linux-ia32-unpacked
 node_modules/.bin/build -l tar.gz --ia32
 %endif
 
@@ -110,7 +110,7 @@ mkdir %{buildroot}
 mkdir -p %{buildroot}%{riotdefaultinstalltree}
 cp -a %{archivebasename}/%{linuxunpacked}/* %{buildroot}%{riotdefaultinstalltree}
 #cp %{archivebasename}/LICENSE %{buildroot}%{_datadir}/licenses/LICENSE
-#install -D -m755 -p electron/dist/linux-unpacked/riot-web %{buildroot}%{_bindir}/riot
+#install -D -m755 -p electron_app/dist/linux-unpacked/riot-web %{buildroot}%{_bindir}/riot
 # a little ugly - the symbolic link creation requires this since it is not "installed"
 mkdir -p %{buildroot}%{_bindir}
 ln -s %{riotdefaultinstalltree}/riot-web %{buildroot}%{_bindir}/riot
